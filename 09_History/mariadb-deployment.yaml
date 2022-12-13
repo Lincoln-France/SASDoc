@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-local
+  labels:
+    app: mariadb
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: mymariadb
+        image: mariadb:10.4
+        ports:
+        - containerPort: 3306
+        
+---
+
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb-service
+  labels:
+    app: mariadb
+spec:
+  type: ClusterIP
+  selector:
+    app: mariadb
+  ports:
+  - name: http
+    port: 3306
+    targetPort: 3306
+        
+ 
